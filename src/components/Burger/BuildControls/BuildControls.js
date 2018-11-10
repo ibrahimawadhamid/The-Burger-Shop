@@ -1,5 +1,6 @@
 import React from 'react';
-import cssClasses from './BuildControls.css';
+
+import classes from './BuildControls.css';
 import BuildControl from './BuildControl/BuildControl';
 
 const controls = [
@@ -10,19 +11,20 @@ const controls = [
 ];
 
 const buildControls = (props) => (
-    <div className={cssClasses.BuildControls}>
+    <div className={classes.BuildControls}>
         <p>Current Price: <strong>{props.price.toFixed(2)}</strong></p>
-        {controls.map(control => {
-            return <BuildControl
-                key={control.label}
-                label={control.label}
-                added={() => props.ingredientAdded(control.type)}
-                removed={() => props.ingredientRemoved(control.type)}
-                disabled={props.disabled[control.type]}/>;
-        })}
+        {controls.map(ctrl => (
+            <BuildControl
+                key={ctrl.label}
+                label={ctrl.label}
+                added={() => props.ingredientAdded(ctrl.type)}
+                removed={() => props.ingredientRemoved(ctrl.type)}
+                disabled={props.disabled[ctrl.type]}/>
+        ))}
         <button
-            className={cssClasses.OrderButton}
-            disabled={!props.purchaseable} onClick={props.ordered}>Order Now
+            className={classes.OrderButton}
+            disabled={!props.purchasable}
+            onClick={props.ordered}>ORDER NOW
         </button>
     </div>
 );
