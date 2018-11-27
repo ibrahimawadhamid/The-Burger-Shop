@@ -9,30 +9,6 @@ import {connect} from 'react-redux';
 import * as actionTypes from '../../store/actions';
 
 class BurgerBuilder extends Component {
-   state = {
-        ingredients: {
-            salad: 0,
-            bacon: 0,
-            cheese: 0,
-            meat: 0
-        },
-        totalPrice: 4,
-        purchasable: false,
-        purchasing: false
-    };
-
-    purchaseHandler = () => {
-        this.setState({purchasing: true});
-    };
-
-    purchaseCancelHandler = () => {
-        this.setState({purchasing: false});
-    };
-
-    purchaseContinueHandler = () => {
-        alert('You continue!');
-    };
-
     render() {
         const disabledInfo = {
             ...this.props.ingredients
@@ -40,24 +16,22 @@ class BurgerBuilder extends Component {
         for (let key in disabledInfo) {
             disabledInfo[key] = disabledInfo[key] <= 0
         }
-        // {salad: true, meat: false, ...}
         return (
             <Aux>
-                <Modal show={this.props.purchasing} modalClosed={this.purchaseCancelHandler}>
+                <Modal show={this.props.purchasing} modalClosed={this.props.onPurchaseCancel}>
                     <OrderSummary
                         ingredients={this.props.ingredients}
                         price={this.props.totalPrice}
-                        purchaseCancelled={this.purchaseCancelHandler}
-                        purchaseContinued={this.purchaseContinueHandler}/>
+                        purchaseCancelled={this.props.onPurchaseCancel}
+                        purchaseContinued={this.props.onPurchaseContinue}/>
                 </Modal>
                 <Burger ingredients={this.props.ingredients}/>
                 <BuildControls
-                    //ingredientAdded={this.addIngredientHandler}
                     ingredientAdded={this.props.onAddIngredient}
                     ingredientRemoved={this.props.onRemoveIngredient}
                     disabled={disabledInfo}
                     purchasable={this.props.purchasable}
-                    ordered={this.purchaseHandler}
+                    ordered={this.props.onPurchase}
                     price={this.props.totalPrice}/>
             </Aux>
         );
@@ -75,20 +49,30 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddIngredient: (type) => dispatch(
-            {
-                type: actionTypes.ADD_INGREDIENT,
-                payload: {
-                    type: type
-                }
-            }),
-        onRemoveIngredient: (type) => dispatch(
-            {
-                type: actionTypes.REMOVE_INGREDIENT,
-                payload: {
-                    type: type
-                }
-            }),
+        onAddIngredient: (IngredientType) => dispatch({
+            type: actionTypes.ADD_INGREDIENT,
+            payload: {
+                IngredientType: IngredientType
+            }
+        }),
+        onRemoveIngredient: (IngredientType) => dispatch({
+            type: actionTypes.REMOVE_INGREDIENT,
+            payload: {
+                IngredientType: IngredientType
+            }
+        }),
+        onPurchase: () => dispatch({
+            type: actionTypes.PURCHASE,
+            payload: {}
+        }),
+        onPurchaseCancel: () => dispatch({
+            type: actionTypes.PURCHASE_CANCEL,
+            payload: {}
+        }),
+        onPurchaseContinue: () => dispatch({
+            type: actionTypes.PURCHASE_CONTINUE,
+            payload: {}
+        }),
     };
 };
 

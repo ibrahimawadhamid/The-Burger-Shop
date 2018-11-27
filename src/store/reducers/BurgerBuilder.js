@@ -1,11 +1,5 @@
 import * as actionTypes from '../actions';
-
-const INGREDIENT_PRICES = {
-    salad: 0.5,
-    cheese: 0.4,
-    meat: 1.3,
-    bacon: 0.7
-};
+import {INGREDIENT_PRICES} from '../constants';
 
 const initialState = {
     ingredients: {
@@ -22,13 +16,13 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.ADD_INGREDIENT:
-            let oldCount = state.ingredients[action.payload.type];
+            let oldCount = state.ingredients[action.payload.IngredientType];
             let updatedCount = oldCount + 1;
             let updatedIngredients = {
                 ...state.ingredients
             };
-            updatedIngredients[action.payload.type] = updatedCount;
-            const priceAddition = INGREDIENT_PRICES[action.payload.type];
+            updatedIngredients[action.payload.IngredientType] = updatedCount;
+            const priceAddition = INGREDIENT_PRICES[action.payload.IngredientType];
             let oldPrice = state.totalPrice;
             let newPrice = oldPrice + priceAddition;
             let sum = Object.keys(updatedIngredients)
@@ -45,7 +39,7 @@ const reducer = (state = initialState, action) => {
                 purchasable: sum > 0
             };
         case actionTypes.REMOVE_INGREDIENT:
-            oldCount = state.ingredients[action.payload.type];
+            oldCount = state.ingredients[action.payload.IngredientType];
             if (oldCount <= 0) {
                 return {
                     ...state
@@ -55,8 +49,8 @@ const reducer = (state = initialState, action) => {
             updatedIngredients = {
                 ...state.ingredients
             };
-            updatedIngredients[action.payload.type] = updatedCount;
-            const priceDeduction = INGREDIENT_PRICES[action.payload.type];
+            updatedIngredients[action.payload.IngredientType] = updatedCount;
+            const priceDeduction = INGREDIENT_PRICES[action.payload.IngredientType];
             oldPrice = state.totalPrice;
             newPrice = oldPrice - priceDeduction;
             sum = Object.keys(updatedIngredients)
@@ -71,6 +65,21 @@ const reducer = (state = initialState, action) => {
                 totalPrice: newPrice,
                 ingredients: updatedIngredients,
                 purchasable: sum > 0
+            };
+        case actionTypes.PURCHASE:
+            return {
+                ...state,
+                purchasing: true
+            };
+        case actionTypes.PURCHASE_CANCEL:
+            return {
+                ...state,
+                purchasing: false
+            };
+        case actionTypes.PURCHASE_CONTINUE:
+            alert('You continued!');
+            return {
+                ...state
             };
         default:
             return {
