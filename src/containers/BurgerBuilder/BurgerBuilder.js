@@ -38,7 +38,9 @@ class BurgerBuilder extends Component {
                 ingredients={this.props.ingredients}
                 price={this.props.totalPrice}
                 purchaseCancelled={this.props.onPurchaseCancel}
-                purchaseContinued={this.props.onPurchaseContinue}/>;
+                //purchaseContinued={this.props.onPurchaseContinue}
+                purchaseContinued={this.props.confirmOrder}
+            />;
             burger = (
                 <Aux><Burger ingredients={this.props.ingredients}/>
                     <BuildControls
@@ -79,7 +81,7 @@ const mapDispatchToProps = dispatch => {
         onRemoveIngredient: (IngredientType) => dispatch(actionCreators.removeIngredient(IngredientType)),
         onPurchase: () => dispatch(actionCreators.purchase()),
         onPurchaseCancel: () => dispatch(actionCreators.purchaseCancel()),
-        onPurchaseContinue: () => dispatch(actionCreators.purchaseContinue()),
+        confirmOrder: () => dispatch(actionCreators.confirmOrder()),
         getIngredients: () => dispatch(actionCreators.getIngredients()),
     };
 };

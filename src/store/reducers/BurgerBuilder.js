@@ -1,6 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
 import * as constants from '../constants';
-import axios from '../../axios-orders';
 
 const initialState = {
     ingredients: null,
@@ -73,11 +72,10 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 purchasing: false
             };
-        case actionTypes.PURCHASE_CONTINUE:
-            purchaseContinue(state);
+        case actionTypes.PURCHASE_COMPLETED:
             return {
                 ...state,
-                loading: true,
+                loading: false,
                 purchasing: false
             };
         case actionTypes.FETCH_INGREDIENTS:
@@ -90,32 +88,6 @@ const reducer = (state = initialState, action) => {
                 ...state
             }
     }
-};
-
-const purchaseContinue = (state) => {
-    const order = {
-        ingredients: state.ingredients,
-        price: state.totalPrice,
-        customer: {
-            name: 'Ibrahim Awad',
-            address: {
-                street: 'Test Street',
-                zipCode: '12321',
-                country: 'Egypt'
-            },
-            email: 'test@test.com'
-        },
-        deliveryMethod: 'fastest'
-    };
-    axios.post('/orders.json', order)
-        .then((response) => {
-            alert("Submitted, waiting for confirmation!");
-            console.log(response);
-        })
-        .catch(error => {
-            alert("Connection Error");
-            console.log(error)
-        });
 };
 
 export default reducer;

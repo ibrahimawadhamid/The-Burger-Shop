@@ -3,6 +3,7 @@ export {
     removeIngredient,
     purchase,
     purchaseCancel,
-    purchaseContinue,
     getIngredients,
+    confirmOrder,
+
 } from './BurgerBuilder';

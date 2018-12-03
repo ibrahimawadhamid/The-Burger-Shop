@@ -32,11 +32,43 @@ export const purchaseCancel = () => {
         }
     };
 };
-export const purchaseContinue = () => {
+
+const purchaseCompleted = () => {
     return {
-        type: actionTypes.PURCHASE_CONTINUE,
+        type: actionTypes.PURCHASE_COMPLETED,
         payload: {
         }
+    };
+};
+
+export const confirmOrder = () => {
+    return (dispatch, getState) => {
+        const state = getState().BurgerBuilderReducer;
+        const order = {
+            ingredients: state.ingredients,
+            price: state.totalPrice,
+            customer: {
+                name: 'Ibrahim Awad',
+                address: {
+                    street: 'Test Street',
+                    zipCode: '12321',
+                    country: 'Egypt'
+                },
+                email: 'test@test.com'
+            },
+            deliveryMethod: 'fastest'
+        };
+        alert("Attempting Order Submission");
+        axios.post('/orders.json', order)
+            .then(response => {
+                alert("Order Submitted");
+                console.log(response.data);
+            })
+            .catch(error => {
+                alert("Connection Error");
+                console.log(error)
+            });
+        dispatch(purchaseCompleted());
     };
 };
 
