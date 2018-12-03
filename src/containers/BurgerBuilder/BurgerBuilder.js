@@ -6,7 +6,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import {connect} from 'react-redux';
-import * as actionTypes from '../../store/actions';
+import * as actionCreators from '../../store/actions/index';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
@@ -21,14 +21,7 @@ class BurgerBuilder extends Component {
         this.setState({
             loading: true,
         });
-        axios.get('https://the-burger-shop-01.firebaseio.com/ingredients.json')
-            .then(response => {
-                this.props.onFetchIngredients(response.data);
-            })
-            .catch(error => {
-                alert("Ingredients can't be loaded!");
-                console.log(error);
-            }).finally(() => this.setState({loading: false}));
+        this.props.getIngredients();
     }
 
     render() {
@@ -82,36 +75,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddIngredient: (IngredientType) => dispatch({
-            type: actionTypes.ADD_INGREDIENT,
-            payload: {
-                IngredientType: IngredientType
-            }
-        }),
-        onRemoveIngredient: (IngredientType) => dispatch({
-            type: actionTypes.REMOVE_INGREDIENT,
-            payload: {
-                IngredientType: IngredientType
-            }
-        }),
-        onPurchase: () => dispatch({
-            type: actionTypes.PURCHASE,
-            payload: {}
-        }),
-        onPurchaseCancel: () => dispatch({
-            type: actionTypes.PURCHASE_CANCEL,
-            payload: {}
-        }),
-        onPurchaseContinue: () => dispatch({
-            type: actionTypes.PURCHASE_CONTINUE,
-            payload: {}
-        }),
-        onFetchIngredients: (ingredients) => dispatch({
-            type: actionTypes.FETCH_INGREDIENTS,
-            payload: {
-                ingredients: ingredients
-            }
-        }),
+        onAddIngredient: (IngredientType) => dispatch(actionCreators.addIngredient(IngredientType)),
+        onRemoveIngredient: (IngredientType) => dispatch(actionCreators.removeIngredient(IngredientType)),
+        onPurchase: () => dispatch(actionCreators.purchase()),
+        onPurchaseCancel: () => dispatch(actionCreators.purchaseCancel()),
+        onPurchaseContinue: () => dispatch(actionCreators.purchaseContinue()),
+        getIngredients: () => dispatch(actionCreators.getIngredients()),
     };
 };
 

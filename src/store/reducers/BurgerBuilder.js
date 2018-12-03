@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions';
+import * as actionTypes from '../actions/actionTypes';
 import {INGREDIENT_PRICES} from '../constants';
 import axios from '../../axios-orders';
 
