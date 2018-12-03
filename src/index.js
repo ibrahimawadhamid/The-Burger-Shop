@@ -11,7 +11,7 @@ import BurgerBuilderReducer from './store/reducers/BurgerBuilder';
 const rootReducer = combineReducers({
     BurgerBuilderReducer: BurgerBuilderReducer
 });
-const globalStore = createStore(rootReducer);
+const globalStore = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 ReactDOM.render(<Provider store={globalStore}><App /></Provider>, document.getElementById('root'));
 registerServiceWorker();
