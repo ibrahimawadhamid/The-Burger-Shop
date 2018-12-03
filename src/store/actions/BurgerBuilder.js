@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from '../../axios-orders';
+import * as constants from '../constants';
 
 export const addIngredient = (IngredientType) => {
     return {
@@ -50,7 +51,7 @@ const getIngredientsAction = (ingredients) => {
 
 export const getIngredients = () => {
     return dispatch => {
-        axios.get('https://the-burger-shop-01.firebaseio.com/ingredients.json')
+        axios.get(constants.INGREDIENTS_URL)
             .then(response => {
                 dispatch(getIngredientsAction(response.data));
             })

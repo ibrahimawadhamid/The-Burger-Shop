@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import {INGREDIENT_PRICES} from '../constants';
+import * as constants from '../constants';
 import axios from '../../axios-orders';
 
 const initialState = {
@@ -19,7 +19,7 @@ const reducer = (state = initialState, action) => {
                 ...state.ingredients
             };
             updatedIngredients[action.payload.IngredientType] = updatedCount;
-            const priceAddition = INGREDIENT_PRICES[action.payload.IngredientType];
+            const priceAddition = constants.INGREDIENT_PRICES[action.payload.IngredientType];
             let oldPrice = state.totalPrice;
             let newPrice = oldPrice + priceAddition;
             let sum = Object.keys(updatedIngredients)
@@ -47,7 +47,7 @@ const reducer = (state = initialState, action) => {
                 ...state.ingredients
             };
             updatedIngredients[action.payload.IngredientType] = updatedCount;
-            const priceDeduction = INGREDIENT_PRICES[action.payload.IngredientType];
+            const priceDeduction = constants.INGREDIENT_PRICES[action.payload.IngredientType];
             oldPrice = state.totalPrice;
             newPrice = oldPrice - priceDeduction;
             sum = Object.keys(updatedIngredients)
