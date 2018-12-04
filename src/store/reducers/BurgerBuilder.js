@@ -1,16 +1,12 @@
-import * as actionTypes from '../actions';
-import {INGREDIENT_PRICES} from '../constants';
+import * as actionTypes from '../actions/actionTypes';
+import * as constants from '../constants';
 
 const initialState = {
-    ingredients: {
-        salad: 0,
-        bacon: 0,
-        cheese: 0,
-        meat: 0
-    },
+    ingredients: null,
     totalPrice: 4,
     purchasable: false,
-    purchasing: false
+    purchasing: false,
+    loading: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -22,7 +18,7 @@ const reducer = (state = initialState, action) => {
                 ...state.ingredients
             };
             updatedIngredients[action.payload.IngredientType] = updatedCount;
-            const priceAddition = INGREDIENT_PRICES[action.payload.IngredientType];
+            const priceAddition = constants.INGREDIENT_PRICES[action.payload.IngredientType];
             let oldPrice = state.totalPrice;
             let newPrice = oldPrice + priceAddition;
             let sum = Object.keys(updatedIngredients)
@@ -50,7 +46,7 @@ const reducer = (state = initialState, action) => {
                 ...state.ingredients
             };
             updatedIngredients[action.payload.IngredientType] = updatedCount;
-            const priceDeduction = INGREDIENT_PRICES[action.payload.IngredientType];
+            const priceDeduction = constants.INGREDIENT_PRICES[action.payload.IngredientType];
             oldPrice = state.totalPrice;
             newPrice = oldPrice - priceDeduction;
             sum = Object.keys(updatedIngredients)
@@ -76,10 +72,16 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 purchasing: false
             };
-        case actionTypes.PURCHASE_CONTINUE:
-            alert('You continued!');
+        case actionTypes.PURCHASE_COMPLETED:
             return {
-                ...state
+                ...state,
+                loading: false,
+                purchasing: false
+            };
+        case actionTypes.FETCH_INGREDIENTS:
+            return {
+                ...state,
+                ingredients: action.payload.ingredients
             };
         default:
             return {
