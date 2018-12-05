@@ -1,7 +1,7 @@
 # ![64-64-712c55fa0cd7192cafd33f43fb022ab9-burger](https://user-images.githubusercontent.com/44545113/49510473-ff7a8a00-f890-11e8-9ea5-2557d47ab87f.png) The Burger Shop App
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-![webp net-gifmaker](https://user-images.githubusercontent.com/44545113/49068383-43391800-f22f-11e8-8d25-6e48b26e3f55.gif)
+![tbs](https://user-images.githubusercontent.com/44545113/49511020-a14ea680-f892-11e8-8c2a-12d10036fbf9.gif)
 
 ## Available Scripts
 
